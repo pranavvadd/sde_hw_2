@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -8,12 +10,19 @@ public class Main {
         Game game = new Game();
         Random random = new Random();
         Scanner scanner = new Scanner(System.in);
+        List<Integer> used = new ArrayList<>();
 
         System.out.println("Welcome to Prithee! Call out the missing word.");
         System.out.println("Three right or three wrong ends the show.\n");
 
         while (!game.isOver()) {
+            // keep rolling until we get a word we havent blanked out yet
             int blank = random.nextInt(sonnet.wordCount());
+            while (used.contains(blank)) {
+                blank = random.nextInt(sonnet.wordCount());
+            }
+            used.add(blank);
+
             System.out.println(sonnet.textUpTo(blank));
             System.out.print("\nPrithee, what is the next word? ");
 
